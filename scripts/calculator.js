@@ -1,10 +1,12 @@
+// Calculator — handles both click and keyboard input
+// State: num1, num2, operator, total
+// Flow: number → operator → number → calculate
 let num1;
 let num2;
 let operator;
 let total = 0;
 
 const display = document.querySelector(".display");
-
 const numberButton = document.querySelectorAll(".number");
 const operatorButton = document.querySelectorAll(".operator");
 const calculate = document.querySelector(".calculate");
@@ -22,19 +24,22 @@ const clearData = () => {
 };
 
 const handleBackspace = () => {
+  // if operator is not set, mutate num1, otherwise mutate num2.
   if (operator === undefined) {
   if (num1 === undefined) return;
-  
+  // mutate num1 or num2 to remove the last digit of the number, if the slice
+  //result is "", change the number to default which is 0.
   num1 = num1.slice(0, -1) || undefined;
   display.textContent = num1 ?? 0;
   } else {
     if (num2 === undefined) return;
     num2 = num2.slice(0, -1) || undefined;
+    // update the display, show num2 if it is set otherwise show num1 and operator
     display.textContent = num2 !== undefined ? num1 + operator + num2 : num1 + operator;
   }
 }
 
-function handleDecimal () {
+const handleDecimal = () => {
   if (operator === undefined) {
     if (num1 === undefined || num1.includes(".")) return;
     num1 += ".";
@@ -46,7 +51,7 @@ function handleDecimal () {
   }
 }
 
-function handleNumber (digit) {
+const handleNumber = digit => {
   if (total !== 0) {
       num1 = total;
       total = 0;
@@ -72,6 +77,11 @@ function handleNumber (digit) {
 
 const handleOperator = (newOperator) => {
   if (num1 === undefined) return;
+
+   // receives '*' and '/' from input and convert to 'x' and '÷' respectively
+  const normalized = {'*': 'x', '/' : '÷'}
+  newOperator = normalized[newOperator] ?? newOperator;
+
   if (num1 !== undefined && num2 !== undefined) {
     operate(operator, num1, num2);
     num1 = total;
@@ -95,11 +105,10 @@ backspace.addEventListener("click", () => handleBackspace());
 decimal.addEventListener("click", () => handleDecimal());
 
 window.addEventListener("keydown", (event) => {
-  //Remove the F keys from the display
   const fKeys = ["F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", "F11", "F12"]
+  //blocks the function keys from the display.
   if (fKeys.includes(event.key)) return;
-  
-  
+
   if (event.key === "Escape") return clearData();
   if (event.key === 'Enter') handleCalculate();
   if (event.key === 'Backspace') handleBackspace();
@@ -111,15 +120,7 @@ window.addEventListener("keydown", (event) => {
   else {
     const operators = ['+', '-', '*', '/'];
     if (!operators.includes(event.key)) return;
-
     handleOperator(event.key);
-
-    switch (event.key) {
-      case '+': operator = event.key; break;
-      case '-': operator = event.key; break;
-      case '*': operator = 'x'; break;
-      case '/': operator = '÷'; break;
-    }
   }
 });
 
