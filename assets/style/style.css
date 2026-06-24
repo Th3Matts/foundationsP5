@@ -4,22 +4,23 @@
   padding: 0;
 } 
 
-body{
+.container {
   background: #87879c;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .calculator{
-  background: #53535c;
+  background: #53535C;
   width: 280px;
   
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  gap: 4px;
-
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
 
   padding: 1.2rem;
-  margin: 2rem auto ;
 
   border: 2px solid;
   border-radius: 8px;
@@ -31,9 +32,7 @@ button{
   background: #F0F0F0;
   font-size: 1rem;
   text-align: center;
-  
-  flex-basis: calc(25% - 4px);
-  width: 0.2rem;
+
   padding: 16px 0;
   
   cursor: pointer;
@@ -45,7 +44,19 @@ button{
 
 button:hover{
   transition: 0.4s;
-  background: #c2c2c2;
+  background: #CCCCCC;
+}
+
+button.wide {
+  flex-basis: calc(50% - 6px); /* double width */
+  grid-column: span 2;
+}
+
+button.tall {
+  align-self: stretch;
+  height: auto;
+  
+  grid-row: span 2;
 }
 
 .clear,
@@ -54,16 +65,27 @@ button:hover{
   color: #F0f0f0;
 }
 
-.operator,
+.clear:hover,
+.backspace:hover{
+  background: #d32016;
+}
+
 .calculate{
+  background: #FFC830;
+}
+
+.calculate:hover{
+  background: #D8A61C;
+}
+
+.operator{
   background: #505a64;
   color: #F0f0f0;
   border: 2px solid black;
 }
 
-.clear:hover,
-.clearAll:hover{
-  background: #d32016;
+.operator:hover{
+  background: #7B7B88;
 }
 
 .display{
@@ -73,7 +95,7 @@ button:hover{
   white-space: nowrap;
   text-overflow: ellipsis;
 
-  width: 100%;
+  grid-column: 1 / -1;
 
   padding: 0.65rem 0.5rem; /* taller display box */
   font-size: 1.5rem;
