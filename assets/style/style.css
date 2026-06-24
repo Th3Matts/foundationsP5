@@ -54,7 +54,7 @@ button:hover{
 }
 
 button.wide {
-  flex-basis: calc(50% - 6px); /* double width */
+  flex-basis: calc(50% - 6px); 
   grid-column: span 2;
 }
 
@@ -103,7 +103,7 @@ button.tall {
 
   grid-column: 1 / -1;
 
-  padding: 0.65rem 0.5rem; /* taller display box */
+  padding: 0.65rem 0.5rem;
   font-size: 1.5rem;
   margin-bottom: 0.5rem;
 
@@ -118,5 +118,5 @@ footer{
 }
 
 footer img{
-  transform: scale(1.4);
+  transform: scale(1.3);
 }
